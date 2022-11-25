@@ -1,7 +1,6 @@
 import './App.css'
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { loadEnv } from "vite";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -20,7 +19,6 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Ynov Doctolib</h1>
     </div>
   )
 }
