@@ -10,8 +10,10 @@ import {
 } from "react-router-dom"
 import Root from "./routes/root";
 
-import Auth from './pages/auth';
+import Authentication from './pages/authentication';
 import ErrorPage from './pages/error-page';
+import MyAppointments from './pages/myAppointments';
+import PractitionnerList from './pages/practitionnerList';
 
 import './index.css'
 
@@ -42,21 +44,23 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/my-appointments",
-        element: <p>My previous appointments</p>
+        element: <MyAppointments/>
       },
       {
         path: "/find-practitioner",
-        element: <p>Find a pratctitionner</p>
+        element: <PractitionnerList/>
       },
+      /*
       {
         path: "/take-appointment",
         element: <p>Take an appointment</p>
       }
+      */
     ]
   },
   {
     path: "/auth",
-    element:<Auth/>,
+    element:<Authentication/>,
   },
 ]);
 //  import App from './App'   <App />
