@@ -18,10 +18,10 @@ export default function PractitionnerList() {
         setCurrentDate(event.target.value);
     };
 
-    async function takeAppointment(uid:string){
+    async function takeAppointment(uid_practitionner:string){
         const appointmentCreated = await addDoc(collection(db, 'appointments'), {
             uid_user: auth.currentUser !== null ? auth.currentUser.uid : '0',
-            uid_practitionner: uid,
+            uid_practitionner: uid_practitionner,
             date: currentDate
           })
           .catch(function(error) {
@@ -29,7 +29,6 @@ export default function PractitionnerList() {
             alert(errorMessage)
             console.log(error);
           });
-        //console.log(appointmentCreated);
     }
 
     function practitionnerRow(practitionner:practitionner){
@@ -40,7 +39,6 @@ export default function PractitionnerList() {
             </div>
         )
     }
-
 
     const fetchData = async () => {
         const getPractitionners = await getDocs(collection(db, 'practitionners'));
@@ -53,7 +51,7 @@ export default function PractitionnerList() {
 
     useEffect(() => {
         fetchData();
-    });
+    },[]);
 
     return (
         <div> 
