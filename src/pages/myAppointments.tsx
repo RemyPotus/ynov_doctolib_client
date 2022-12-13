@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import { auth, db } from '../main';
-import { collection, getDocs, doc, updateDoc} from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, query, where} from 'firebase/firestore';
 import { atcb_action } from 'add-to-calendar-button';
 import 'add-to-calendar-button/assets/css/atcb.css';
 
@@ -24,6 +24,7 @@ export default function MyAppointments() {
         const docRef = doc(db,"appointments", uid);
         updateDoc(docRef,{cancelled: true}).then(() => {
             alert('Cancelled !');
+            fetchData();
         }).catch((e) => {
             alert('Couldn\'t be cancelled');
             console.log(e);
@@ -54,9 +55,14 @@ export default function MyAppointments() {
     }
 
     const fetchData = async () => {
-        const getAppointments = await getDocs(collection(db, 'appointments'));
-        let listAppointments:any[] = []
-        getAppointments.forEach((doc) => { 
+
+        const queryConstraints = []
+        queryConstraints.push(where("uid_user", "==", uid_user));
+        queryConstraints.push(where("cancelled", "==", false));
+        const q = query(collection(db, "appointments"),...queryConstraints  );
+        const querySnapshot = await getDocs(q);
+        let listAppointments:any[] = [];
+        querySnapshot.forEach((doc) => {
             listAppointments.push(
                 {
                     uid: doc.id,
@@ -64,9 +70,7 @@ export default function MyAppointments() {
                 }
             )
         });
-        //console.log(listAppointments);
-        const myAppointments:{uid:string,data:Appointment}[] = listAppointments.filter((appointment) => appointment.data.uid_user === uid_user);
-        setAppointments(myAppointments.filter((appointment) => !appointment.data.cancelled));
+        setAppointments(listAppointments);
     }
 
     useEffect(() => {

@@ -22,7 +22,8 @@ export default function PractitionnerList() {
         const appointmentCreated = await addDoc(collection(db, 'appointments'), {
             uid_user: auth.currentUser !== null ? auth.currentUser.uid : '0',
             uid_practitionner: uid_practitionner,
-            date: currentDate
+            date: currentDate,
+            cancelled: false
           })
           .catch(function(error) {
             var errorMessage = error.message;
