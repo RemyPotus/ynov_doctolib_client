@@ -9,6 +9,7 @@ import {
   Route,
 } from "react-router-dom"
 import Root from "./routes/root";
+import { ProtectedRoute } from './routes/ProtectedRoute';
 
 import Authentication from './pages/authentication';
 import ErrorPage from './pages/error-page';
@@ -35,11 +36,12 @@ export const db = getFirestore(app);
 
 // Initialize Firestore - Auth
 export const auth = getAuth();
+//const authContext = React.createContext(auth);
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: <ProtectedRoute><Root /></ProtectedRoute>,
     errorElement: <ErrorPage/>,
     children: [
       {
